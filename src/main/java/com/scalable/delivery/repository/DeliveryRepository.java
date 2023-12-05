@@ -9,6 +9,6 @@ import com.scalable.delivery.model.Delivery;
 import java.util.Optional;
 
 @Repository
-public interface DeliveryRepository extends CrudRepository<Delivery, String> {
+public interface DeliveryRepository extends CrudRepository<Delivery, Long> {
     Optional<Delivery> findByUsername(String itemName);
 }
