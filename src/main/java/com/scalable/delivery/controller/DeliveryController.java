@@ -2,6 +2,11 @@ package com.scalable.delivery.controller;
 import com.scalable.delivery.exception.UserNotFoundException;
 import com.scalable.delivery.model.Delivery;
 import com.scalable.delivery.service.DeliveryService;
+
+import io.micrometer.core.instrument.MeterRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +18,22 @@ public class DeliveryController {
     @Autowired
     DeliveryService deliveryService;
 
+    private final MeterRegistry registry;
+
+    public DeliveryController(MeterRegistry registry) {
+        this.registry = registry;
+    }
+
+    private final Logger LOG = LoggerFactory.getLogger(DeliveryController.class);
+
     @PostMapping("/create-default/{username}")
     public ResponseEntity<String> createNewDefaultPayment(@PathVariable String username)
     {
         deliveryService.createDefaultUser(username);
+
+        registry.counter("delivery.total", "username", username).increment();
+        LOG.info("Delivery for " + username + " successfully created");
+
         return ResponseEntity.ok().build();
     }
 
