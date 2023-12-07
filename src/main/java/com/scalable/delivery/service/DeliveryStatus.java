@@ -17,11 +17,11 @@ public class DeliveryStatus {
     Jedis jedis = new Jedis("redis", 6379);
 
     // Sends the progress to order service
-    public void toOrder(String id) {
+    public void toOrder(String id, String message_flag) {
         try {
-            DeliveryMessage deliveryMessage = new DeliveryMessage(id, "SUCCESS");
+            DeliveryMessage deliveryMessage = new DeliveryMessage(id, message_flag);
             String message = objectMapper.writeValueAsString(deliveryMessage);
-            jedis.publish("delivery_status", message);
+            jedis.publish("deliveryToOrder", message);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
