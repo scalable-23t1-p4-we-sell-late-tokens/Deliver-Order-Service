@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class Order {
-    String id;
+    String order_id;
     String username;
-    String status;
+    String message_flag;
 }

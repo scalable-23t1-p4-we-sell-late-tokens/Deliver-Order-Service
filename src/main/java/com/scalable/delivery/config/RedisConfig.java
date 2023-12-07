@@ -14,7 +14,7 @@ public class RedisConfig {
     public RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageSubscriber messageSubscriber) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(messageSubscriber, new ChannelTopic("payment_progress"));
+        container.addMessageListener(messageSubscriber, new ChannelTopic("inventoryToDelivery"));
         return container;
     }
 }
